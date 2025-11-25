@@ -1,0 +1,14 @@
+# Vite + React .gitignore
+
+# Dependencies
+/node_modules/
+
+# Build output
+/dist/
+
+# Environment files
+.env
+.env.*
+
+# Ignore any files starting with "test" in the repository root
+/test*
