@@ -17,7 +17,15 @@ const FileUpload: React.FC<FileUploadProps> = ({
   onFilesChange,
   maxFiles = 10,
   maxFileSize = 10,
-  acceptedTypes = ['image/*', 'text/*', 'application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'],
+  // acceptedTypes = ['image/*', 'text/*', 'application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'],
+  acceptedTypes = [
+    'application/vnd.ms-powerpoint',
+    'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+    'application/vnd.ms-powerpoint.presentation.macroEnabled',
+    '.ppt',
+    '.pptx',
+    '.pptm'
+  ],
   onToggleFileDrop
 }) => {
   const fileInputRef = useRef<HTMLInputElement>(null);

@@ -43,14 +43,14 @@ const ChatInterface: React.FC = () => {
     setIsLoading(true);
 
     try {
-      const response = await chatService.sendMessage({
+      const {message, rag_response, upload_info} = await chatService.sendMessage({
         message: inputValue,
         files: uploadedFiles.map(file => file.file),
       });
-      console.log("Chat Response: ", response.rag_response?.answer);
+      console.log("Chat Response: ", message);
       const assistantMessage: Message = {
         id: (Date.now() + 1).toString(),
-        content: response.rag_response?.answer || "No response from assistant.",
+        content: rag_response?.answer || message || "No response from assistant.",
         role: 'assistant',
         timestamp: new Date(),
       };
@@ -149,14 +149,14 @@ const ChatInterface: React.FC = () => {
   return (
     <div className={styles.chatInterface}>
       <div className={styles.chatHeader}>
-        <h1 className={styles.chatTitle}>ARB Assistant</h1>
+        <h1 className={styles.chatTitle}>Triple A Assessment Assistant</h1>
       </div>
 
       <div className={styles.messagesContainer}>
         {messages.length === 0 ? (
           <div className={styles.welcomeMessage}>
             <Bot size={48} className={styles.welcomeIcon} />
-            <h2>Welcome to Triple A Assistant</h2>
+            <h2>Welcome to Triple A Assessment Assistant</h2>
             <p>Start a conversation by typing your message below. You can also upload files to get help with documents, images, or other content.</p>
           </div>
         ) : (

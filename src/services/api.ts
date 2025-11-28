@@ -8,28 +8,29 @@ const API_PREFIX = import.meta.env.VITE_API_PREFIX || "/api";
 const apiClient = axios.create({
   baseURL: `${API_BASE_URL}${API_PREFIX}`,
   timeout: 300000, // 5 minutes
-  headers: {
-    "Content-Type": "application/json",
-  },
 });
 
 export const chatService = {
   async sendMessage(request: ChatRequest): Promise<QueryRequestResponseType> {
     const formData = new FormData();
-    formData.append("query", request.message);
+    formData.append("prompt", request.message);
 
     if (request.files && request.files.length > 0) {
       request.files.forEach((file) => {
         formData.append(`files`, file);
       });
     }
-
+    console.log("form data: ", formData)
     try {
-      const response = await apiClient.post("/query", formData, {
+      delete apiClient.defaults.headers.post["Content-Type"];
+      delete apiClient.defaults.headers.common["Content-Type"];
+
+      const response = await apiClient.post("/analyse", formData, {
         headers: {
-          "Content-Type": "multipart/form-data",
-        },
+          "Content-Type": "multipart/form-data"
+        }
       });
+      
       console.log("API Response:", response.data.data);
       return response.data?.data;
     } catch (error) {
