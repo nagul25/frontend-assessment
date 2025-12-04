@@ -77,7 +77,6 @@ const ChatInterface: React.FC = () => {
   const formatMessageContent = (content: string): JSX.Element => {
     // Parse the content to check for tools
     const parsed = parseToolsFromResponse(content);
-    
     if (parsed.hasTools) {
       return (
         <>
@@ -88,7 +87,7 @@ const ChatInterface: React.FC = () => {
               ))}
             </div>
           )}
-          <ToolsTable tools={parsed.tools} />
+          {parsed.tools ? <ToolsTable tools={parsed.tools} /> : null }
           {parsed.footerText && (
             <div className={styles.messageFooter}>
               {parsed.footerText.split('\n').map((line, idx) => (
