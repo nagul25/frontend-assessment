@@ -71,51 +71,51 @@ export const parseToolsFromResponse = (content: string): ParsedResponse => {
   }
 
   // Parse each tool line
-  // const tools: Tool[] = toolLines.map(line => {
-  //   // Extract the number
-  //   const numberMatch = line.match(/^(\d+)\.\s+/);
-  //   const number = numberMatch ? parseInt(numberMatch[1]) : 0;
+  const tools: Tool[] = toolLines.map(line => {
+    // Extract the number
+    const numberMatch = line.match(/^(\d+)\.\s+/);
+    const number = numberMatch ? parseInt(numberMatch[1]) : 0;
     
-  //   // Remove the number prefix
-  //   const contentWithoutNumber = line.replace(/^\d+\.\s+/, '');
+    // Remove the number prefix
+    const contentWithoutNumber = line.replace(/^\d+\.\s+/, '');
     
-  //   // Split by " - " to get individual attributes
-  //   const parts = contentWithoutNumber.split(' - ');
+    // Split by " - " to get individual attributes
+    const parts = contentWithoutNumber.split(' - ');
     
-  //   const tool: Tool = { number };
+    const tool: Tool = { number };
     
-  //   for (const part of parts) {
-  //     const trimmedPart = part.trim();
+    for (const part of parts) {
+      const trimmedPart = part.trim();
       
-  //     // Try to extract key-value pairs
-  //     // Patterns: "Key: Value" or "Key/Alternate: Value"
-  //     const keyValueMatch = trimmedPart.match(/^([^:]+):\s*(.+)$/);
+      // Try to extract key-value pairs
+      // Patterns: "Key: Value" or "Key/Alternate: Value"
+      const keyValueMatch = trimmedPart.match(/^([^:]+):\s*(.+)$/);
       
-  //     if (keyValueMatch) {
-  //       let key = keyValueMatch[1].trim();
-  //       const value = keyValueMatch[2].trim();
+      if (keyValueMatch) {
+        let key = keyValueMatch[1].trim();
+        const value = keyValueMatch[2].trim();
         
-  //       // Handle compound keys like "Name/Tools"
-  //       if (key.includes('/')) {
-  //         key = key.split('/')[0];
-  //       }
+        // Handle compound keys like "Name/Tools"
+        if (key.includes('/')) {
+          key = key.split('/')[0];
+        }
         
-  //       // Normalize key names
-  //       const normalizedKey = normalizeKeyName(key);
+        // Normalize key names
+        const normalizedKey = normalizeKeyName(key);
         
-  //       // Handle special cases
-  //       if (normalizedKey === 'metaTags') {
-  //         tool[normalizedKey] = value.split(',').map(v => v.trim());
-  //       } else {
-  //         tool[normalizedKey] = value;
-  //       }
-  //     }
-  //   }
+        // Handle special cases
+        if (normalizedKey === 'metaTags') {
+          tool[normalizedKey] = value.split(',').map(v => v.trim());
+        } else {
+          tool[normalizedKey] = value;
+        }
+      }
+    }
     
-  //   return tool;
-  // });
+    return tool;
+  });
 
-  // result.hasTools = tools.length > 0;
+  result.hasTools = tools.length > 0;
   // result.tools = tools;
   result.headerText = headerLines.join('\n');
   result.footerText = footerLines.join('\n');
