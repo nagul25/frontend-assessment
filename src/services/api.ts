@@ -12,8 +12,13 @@ const apiClient = axios.create({
 
 export const chatService = {
   async sendMessage(request: ChatRequest): Promise<QueryRequestResponseType> {
+    const threadId = sessionStorage.getItem('threadId');
     const formData = new FormData();
     formData.append("prompt", request.message);
+
+    if(threadId) {
+      formData.append("thread_id", threadId || "");
+    }
 
     if (request.files && request.files.length > 0) {
       request.files.forEach((file) => {
@@ -32,6 +37,9 @@ export const chatService = {
       });
       
       console.log("API Response:", response.data.data);
+      if(!threadId) {
+        sessionStorage.setItem('threadId', response.data.data.thread_id);
+      }
       return response.data?.data;
     } catch (error) {
       console.error("Error sending message:", error);
